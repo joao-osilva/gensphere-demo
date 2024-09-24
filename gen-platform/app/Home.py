@@ -7,23 +7,53 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("Welcome to GenSphere Platform")
+# Custom CSS for better styling, including dark mode support
+st.markdown("""
+<style>
+    .main-header {
+        font-size: 2.5rem;
+        color: #4A90E2;
+    }
+    .sub-header {
+        font-size: 1.8rem;
+        color: #50C878;
+    }
+    .label-header {
+        font-size: 1.2rem;
+        color: #FF6B6B;
+    }
+    .info-box {
+        padding: 1rem;
+        border-radius: 0.5rem;
+        background-color: rgba(240, 248, 255, 0.1);
+        border: 1px solid rgba(240, 248, 255, 0.2);
+    }
+    .stApp.light .info-box {
+        color: #1E1E1E;
+    }
+    .stApp.dark .info-box {
+        color: #FFFFFF;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown("<h1 class='main-header'>🌐 Welcome to GenSphere Platform</h1>", unsafe_allow_html=True)
 st.write("Navigate through the pages to explore AI agents and learn how to use the platform.")
 
-st.header("AI Agents Repository")
+st.markdown("<h2 class='sub-header'>🤖 AI Agents Repository</h2>", unsafe_allow_html=True)
 
 client = RegistryClient()
 repositories = client.list_repositories()
 
 if repositories:
-    selected_repo = st.selectbox("Select a repository", repositories)
+    selected_repo = st.selectbox("📦 Select a repository", repositories)
     tags = client.list_tags(selected_repo)
 
     if tags:
-        selected_tag = st.selectbox("Select a tag", tags)
+        selected_tag = st.selectbox("🏷️ Select a tag", tags)
         details = client.get_image_details(selected_repo, selected_tag)
 
-        st.subheader("Image Details")
+        st.markdown("<h3 class='sub-header'>📋 Details</h3>", unsafe_allow_html=True)
         
         # Check for labels in the config
         labels = None
@@ -31,7 +61,6 @@ if repositories:
             labels = details['config']['config']['Labels']
         
         if labels and isinstance(labels, dict):
-            st.markdown("#### Labels")
             st.markdown("---")
             
             # Create a three-column layout for labels
@@ -40,14 +69,14 @@ if repositories:
             for i, (key, value) in enumerate(labels.items()):
                 with cols[i % 3]:
                     st.markdown(f"**{key}**")
-                    st.text(value)
+                    st.markdown(f"<div class='info-box'>{value}</div>", unsafe_allow_html=True)
                     st.markdown("<br>", unsafe_allow_html=True)
         else:
-            st.info("No labels found for this image.")
+            st.info("ℹ️ No details found for this Agent.")
 
-        st.subheader("How to use this image")
+        st.markdown("<h3 class='sub-header'>🚀 How to use this Agent</h3>", unsafe_allow_html=True)
         st.code(f"gen-cli run {selected_repo}:{selected_tag}", language="bash")
     else:
-        st.warning("No tags found for this repository.")
+        st.warning("⚠️ No tags found for this repository.")
 else:
-    st.warning("No repositories found in the registry.")
+    st.warning("⚠️ No repositories found in the registry.")
