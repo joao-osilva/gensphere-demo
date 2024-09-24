@@ -1,0 +1,10 @@
+version: '3'
+services:
+  registry:
+    image: registry:2
+    ports:
+      - "5001:5000"
+    volumes:
+      - ./data:/var/lib/registry
+    environment:
+      REGISTRY_STORAGE_DELETE_ENABLED: "true"
