@@ -103,16 +103,31 @@ tmp/
 temp/
 
 # Python-specific
-**/__pycache__/
-**/*.py[cod]
-**/*$py.class
-**/*.egg-info/
-**/*.egg
-**/dist/
-**/build/
-**/eggs/
-**/.eggs/
-**/*.so
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Streamlit
+.streamlit/
+
+# Docker
+registry/data/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
 # Virtual environment
 **/venv/
