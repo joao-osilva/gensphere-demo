@@ -10,7 +10,7 @@ st.set_page_config(
 st.title("Welcome to GenSphere Platform")
 st.write("Navigate through the pages to explore AI agents and learn how to use the platform.")
 
-st.title("AI Agents Repository")
+st.header("AI Agents Repository")
 
 client = RegistryClient()
 repositories = client.list_repositories()
@@ -31,7 +31,8 @@ if repositories:
             labels = details['config']['config']['Labels']
         
         if labels and isinstance(labels, dict):
-            st.subheader("Labels", divider='gray')
+            st.markdown("#### Labels")
+            st.markdown("---")
             
             # Create a three-column layout for labels
             cols = st.columns(3)
