@@ -1,12 +1,12 @@
-# gen-sdk: CrewAI to FastAPI Wrapper
+# gen-pod-sdk: AI agent to GenPod app wrapper
 
-gen-sdk is a Python SDK that allows you to easily wrap your CrewAI projects into FastAPI applications. This tool simplifies the process of exposing your CrewAI crews as API endpoints, making it easier to integrate your AI agents into web applications or microservices.
+gen-pod-sdk is a Python SDK that allows you to easily wrap your AI agents projects (e.g. CrewAI, AutoGen) into GenPod applications. It simplifies the process of exposing your AI agents as API endpoints, making it easier to integrate them into web applications or microservices.
 
 ## Installation
 
-To install gen-sdk, you can use pip:
+To install gen-pod-sdk, you can use pip:
 ```bash
-pip install gen-sdk
+pip install gen-pod-sdk
 ```
 
 ## Prerequisites
@@ -19,20 +19,13 @@ pip install gen-sdk
 
 1. First, make sure you have a CrewAI project set up using the CrewAI CLI.
 
-2. In your project directory, create a new file called `api.py` with the following content:
+2. In your project directory, create a new file called `gen_pod.py` with the following content:
 
 ```python
+from gen_pod_sdk import generate_pod_app
+from typing import Dict, Any
 import os
 from dotenv import load_dotenv
-from gen_sdk import generate_fastapi_app
-import uvicorn
-from typing import Dict, Any
-
-# Load environment variables from .env file
-load_dotenv()
-
-# Get the project path
-project_path = os.path.dirname(os.path.abspath(__file__))
 
 # Define the expected inputs
 expected_inputs: Dict[str, Any] = {
@@ -42,28 +35,31 @@ expected_inputs: Dict[str, Any] = {
     # "language": (str, "en"),
 }
 
-# Generate FastAPI app
-app = generate_fastapi_app(project_path, expected_inputs)
+# Load environment variables from .env file
+load_dotenv()
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+# Get all environment variables
+env_vars = dict(os.environ)
+
+# Generate and run the pod app
+generate_pod_app(expected_inputs, env_vars)
 ```
 
-3. Create a `.env` file in the same directory as your `api.py` file and add your OpenAI API key:
+3. Create a `.env` file in the same directory as your `gen_pod.py` file and add your OpenAI API key:
 
 ```bash
 OPENAI_API_KEY=your_api_key_here
 ```
 
-4. Run the FastAPI application:
+4. Run the pod app:
 
 ```bash
-python api.py
+python gen_pod.py
 ```
 
-Your CrewAI project is now wrapped in a FastAPI application and running on `http://localhost:8000`.
+Your AI agent project is now GenPod app running on `http://localhost:8000`.
 
-## API Endpoint
+## APP Endpoint
 
 The SDK creates a single endpoint:
 
@@ -81,7 +77,7 @@ curl -X POST "http://localhost:8000/execute" -H "Content-Type: application/json"
 
 ## Customizing Inputs
 
-You can customize the inputs your API expects by modifying the `expected_inputs` dictionary in your `api.py` file. For example:
+You can customize the inputs your API expects by modifying the `expected_inputs` dictionary in your `gen_pod.py` file. For example:
 
 ```python
 expected_inputs: Dict[str, Any] = {

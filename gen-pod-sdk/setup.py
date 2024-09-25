@@ -9,6 +9,7 @@ setup(
         "fastapi==0.115.0",
         "pydantic==2.9.2",
         "crewai==0.63.6",
+        "python-dotenv==1.0.1",
     ],
     author="Your Name",
     author_email="your.email@example.com",
