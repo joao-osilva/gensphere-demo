@@ -27,7 +27,27 @@ def deploy(ctx, repository, image, tag, port, name):
             name=name
         )
         
-        click.echo(f"Container {container.name} is running on port {port}")
+        # Wait for a short time to allow the container to start
+        import time
+        time.sleep(2)
+        
+        # Refresh container information
+        container.reload()
+        
+        # Check container status
+        status = container.status
+        if status == 'running':
+            click.echo(f"Container {container.name} is running successfully on port {port}")
+            click.echo(f"Container ID: {container.id}")
+            click.echo(f"Created at: {container.attrs['Created']}")
+            click.echo(f"IP Address: {container.attrs['NetworkSettings']['IPAddress']}")
+        else:
+            click.echo(f"Container {container.name} is not running. Status: {status}", err=True)
+            
+        # Display container logs
+        click.echo("Container logs:")
+        click.echo(container.logs().decode('utf-8'))
+        
     except docker.errors.ImageNotFound:
         click.echo(f"Error: Image {image_tag} not found", err=True)
         ctx.exit(1)

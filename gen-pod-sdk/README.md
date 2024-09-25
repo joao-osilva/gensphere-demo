@@ -59,7 +59,7 @@ python gen_pod.py
 
 Your AI agent project is now GenPod app running on `http://localhost:8000`.
 
-## APP Endpoint
+## App Endpoint
 
 The SDK creates a single endpoint:
 

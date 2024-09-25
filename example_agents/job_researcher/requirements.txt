@@ -1,0 +1,1 @@
+gen-pod-sdk @ git+https://github.com/joao-osilva/gensphere-demo.git#subdirectory=gen-pod-sdk

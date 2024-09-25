@@ -22,4 +22,4 @@ def generate_pod_app(expected_inputs: Dict[str, Any], env_vars: Dict[str, str] =
     wrapper.generate_endpoint(app)
     
     # Run the app
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=80)

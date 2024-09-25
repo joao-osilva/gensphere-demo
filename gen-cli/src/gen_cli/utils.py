@@ -25,7 +25,7 @@ def create_dockerfile(project_path):
         raise
 
 def get_config_file():
-    config_dir = click.get_app_dir("private-registry-cli")
+    config_dir = click.get_app_dir("gen-cli")
     return os.path.join(config_dir, "config.json")
 
 def is_setup_complete():

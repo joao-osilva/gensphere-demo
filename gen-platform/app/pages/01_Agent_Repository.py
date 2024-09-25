@@ -71,8 +71,8 @@ if repositories:
         else:
             st.info("ℹ️ No details found for this Agent.")
 
-        st.markdown("<h3 class='sub-header'>🚀 How to use this Agent</h3>", unsafe_allow_html=True)
-        st.code(f"gen-cli run {selected_repo}:{selected_tag}", language="bash")
+        st.markdown("<h3 class='sub-header'>🚀 How to run this Agent</h3>", unsafe_allow_html=True)
+        st.code(f"gen-cli deploy -r {selected_repo.split('/')[0]} -i {selected_repo.split('/')[1]} -t {selected_tag} -p 8081 -n container_1", language="bash")
     else:
         st.warning("⚠️ No tags found for this repository.")
 else:
