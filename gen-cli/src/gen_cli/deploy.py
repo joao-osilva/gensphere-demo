@@ -6,8 +6,9 @@ import docker
 @click.option("-i", "--image", required=True, help="Image name")
 @click.option("-t", "--tag", required=True, help="Image tag")
 @click.option("-p", "--port", required=True, type=int, help="Port to expose")
+@click.option("-n", "--name", required=True, help="Custom name for the container")
 @click.pass_context
-def deploy(ctx, repository, image, tag, port):
+def deploy(ctx, repository, image, tag, port, name):
     """Deploy a container locally based on existing repo images."""
     registry_address = ctx.obj['registry_address']
     client = docker.from_env()
@@ -23,7 +24,7 @@ def deploy(ctx, repository, image, tag, port):
             image_tag,
             detach=True,
             ports={f"80/tcp": port},
-            name=f"{repository}-{image}-{tag}"
+            name=name
         )
         
         click.echo(f"Container {container.name} is running on port {port}")

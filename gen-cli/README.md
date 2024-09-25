@@ -55,8 +55,15 @@ gen-cli list-tags --repository myrepo
 
 Deploy a container locally based on existing repo images:
 ```bash
-gen-cli deploy --repository myrepo --image myimage --tag latest --port 8000
+gen-cli deploy --repository myrepo --image myimage --tag latest --port 8000 --name mycontainer
 ```
+
+The `deploy` command now requires the following options:
+- `--repository` or `-r`: Repository name
+- `--image` or `-i`: Image name
+- `--tag` or `-t`: Image tag
+- `--port` or `-p`: Port to expose
+- `--name` or `-n`: Custom name for the container
 
 ## Error Handling
 
