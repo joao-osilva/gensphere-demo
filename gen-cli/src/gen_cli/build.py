@@ -14,13 +14,19 @@ import datetime
 @click.option("-o", "--organization", help="Organization name")
 @click.pass_context
 def build(ctx, project_path, repository, image, tag, description, author, email, organization):
-    """Build and push a Docker image to the private registry."""
+    """
+    Build and push a Docker image to the private registry.
+
+    This command creates a Dockerfile, builds a Docker image with the specified parameters,
+    and pushes it to the configured private registry.
+    """
     registry_address = ctx.obj['registry_address']
     client = docker.from_env()
     
     try:
         # Create Dockerfile
         dockerfile_path = create_dockerfile(project_path)
+        click.echo(f"Dockerfile created at {dockerfile_path}")
         
         # Prepare custom labels
         labels = {
@@ -38,7 +44,8 @@ def build(ctx, project_path, repository, image, tag, description, author, email,
             path=project_path,
             dockerfile=dockerfile_path,
             tag=image_tag,
-            labels=labels
+            labels=labels,
+            nocache=True
         )
         
         # Push image

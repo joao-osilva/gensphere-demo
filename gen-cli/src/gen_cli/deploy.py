@@ -1,5 +1,6 @@
 import click
 import docker
+import time
 
 @click.command()
 @click.option("-r", "--repository", required=True, help="Repository name")
@@ -9,7 +10,11 @@ import docker
 @click.option("-n", "--name", required=True, help="Custom name for the container")
 @click.pass_context
 def deploy(ctx, repository, image, tag, port, name):
-    """Deploy a container locally based on existing repo images."""
+    """
+    Deploy a container locally based on existing repo images.
+
+    This command pulls the specified image from the registry and runs it as a local container.
+    """
     registry_address = ctx.obj['registry_address']
     client = docker.from_env()
     
@@ -28,7 +33,6 @@ def deploy(ctx, repository, image, tag, port, name):
         )
         
         # Wait for a short time to allow the container to start
-        import time
         time.sleep(2)
         
         # Refresh container information

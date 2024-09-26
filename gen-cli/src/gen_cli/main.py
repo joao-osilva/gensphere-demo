@@ -27,10 +27,17 @@ class PrivateRegistryCLI(click.MultiCommand):
 @click.command(cls=PrivateRegistryCLI)
 @click.pass_context
 def cli(ctx):
-    """CLI for interacting with GenSphere platform."""
+    """
+    CLI for interacting with GenSphere platform.
+
+    This is the main entry point for the gen-cli tool. It provides commands
+    for setting up the CLI, building and pushing Docker images, listing
+    repositories and tags, and deploying containers locally.
+    """
     ctx.ensure_object(dict)
     if is_setup_complete():
         ctx.obj['registry_address'] = get_registry_address()
+        click.echo(f"Using registry address: {ctx.obj['registry_address']}")
 
 if __name__ == "__main__":
     cli()
