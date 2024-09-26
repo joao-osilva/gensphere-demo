@@ -65,8 +65,43 @@ def main():
     </style>
     """, unsafe_allow_html=True)
 
-    st.markdown("<h1 class='main-header'>🌐 Welcome to GenSphere Platform!</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 class='main-header'>🌐 Welcome to GenSphere!</h1>", unsafe_allow_html=True)
     st.markdown("<p class='tagline'>A Hugging Face for AI Agents</p>", unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    # New section: Platform Architecture and Components
+    st.markdown("<h2 class='sub-header'>Platform Architecture and Components</h2>", unsafe_allow_html=True)
+
+    st.write("""
+    We are a hub where developers can build, publish, share and use AI agents. You can quickly build your solution 
+    by leveraging existing building blocks from the platform, no more doing it from scratch!
+    """)
+
+    #st.image("../imgs/platform_diagram.png", caption="Platform Architecture Diagram", use_column_width=True)
+
+    st.write("Our platform is composed of different services:")
+
+    services = [
+        "AI agent hub: Find agents that perform tasks in a variety of segments",
+        "Agent as a Service (AaaS): Publish your agents as APIs through a 1-click deployment",
+        "Marketplace: Easily monetize your agents without having to worry about hosting",
+        "Leaderboard: Compare agents and find the best fit for your need"
+    ]
+
+    for service in services:
+        st.markdown(f"- {service}")
+
+    st.write("You can get started using our open-source tooling:")
+
+    tools = [
+        "gen-flow-sdk: Python framework to build agentic workflows from first principles, build complex flows using simple blocks",
+        "gen-pod-sdk: Python framework to easily enable your existing agents (e.g., CrewAI, Autogen) to be published into the platform",
+        "gen-cli: a unified tool to interact with the platform through the terminal"
+    ]
+
+    for tool in tools:
+        st.markdown(f"- {tool}")
 
     st.markdown("---")
 
