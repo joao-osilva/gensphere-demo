@@ -78,26 +78,26 @@ def main():
     by leveraging existing building blocks from the platform, no more doing it from scratch!
     """)
 
-    #st.image("../imgs/platform_diagram.png", caption="Platform Architecture Diagram", use_column_width=True)
+    #st.image("../imgs/platform_diagram.svg", caption="Platform Architecture Diagram", use_column_width=True)
 
-    st.write("Our platform is composed of different services:")
+    st.write("Our platform is composed by different services:")
 
     services = [
-        "AI agent hub: Find agents that perform tasks in a variety of segments",
-        "Agent as a Service (AaaS): Publish your agents as APIs through a 1-click deployment",
-        "Marketplace: Easily monetize your agents without having to worry about hosting",
-        "Leaderboard: Compare agents and find the best fit for your need"
+        "**AI agent hub**: Find agents that perform tasks in a variety of segments",
+        "**Agent as a Service (AaaS)**: Publish your agents as APIs through a 1-click deployment",
+        "**Marketplace**: Easily monetize your agents without having to worry about hosting",
+        "**Leaderboard**: Compare agents and find the best fit for your need"
     ]
 
     for service in services:
         st.markdown(f"- {service}")
 
-    st.write("You can get started using our open-source tooling:")
+    st.write("You can get started by using our open-source tools:")
 
     tools = [
-        "gen-flow-sdk: Python framework to build agentic workflows from first principles, build complex flows using simple blocks",
-        "gen-pod-sdk: Python framework to easily enable your existing agents (e.g., CrewAI, Autogen) to be published into the platform",
-        "gen-cli: a unified tool to interact with the platform through the terminal"
+        "**gen-flow-sdk**: Python framework to build agentic workflows from first principles, build complex flows using simple blocks",
+        "**gen-pod-sdk**: Python framework to easily enable your existing agents (e.g., CrewAI, Autogen) to be published into the platform",
+        "**gen-cli**: a unified tool to interact with the platform through the terminal"
     ]
 
     for tool in tools:
