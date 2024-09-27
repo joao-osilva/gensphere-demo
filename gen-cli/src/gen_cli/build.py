@@ -26,7 +26,6 @@ def build(ctx, project_path, repository, image, tag, description, author, email,
     try:
         # Create Dockerfile
         dockerfile_path = create_dockerfile(project_path)
-        click.echo(f"Dockerfile created at {dockerfile_path}")
         
         # Prepare custom labels
         labels = {
@@ -49,9 +48,14 @@ def build(ctx, project_path, repository, image, tag, description, author, email,
         )
         
         # Push image
-        click.echo(f"Pushing image: {image_tag}")
-        client.images.push(image_tag)
-        
+        click.echo(f"Attempting to push image: {image_tag}")
+        push_output = client.images.push(image_tag, stream=True, decode=True)
+        for line in push_output:
+            if 'status' in line:
+                click.echo(f"Push status: {line['status']}")
+            if 'error' in line:
+                raise docker.errors.APIError(f"Push error: {line['error']}")
+    
         click.echo(f"Image {image_tag} built and pushed successfully")
         click.echo("Custom information added:")
         for key, value in labels.items():
@@ -61,4 +65,7 @@ def build(ctx, project_path, repository, image, tag, description, author, email,
         ctx.exit(1)
     except docker.errors.APIError as e:
         click.echo(f"Error pushing image: {str(e)}", err=True)
+        ctx.exit(1)
+    except Exception as e:
+        click.echo(f"Unexpected error: {str(e)}", err=True)
         ctx.exit(1)

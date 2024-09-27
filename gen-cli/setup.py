@@ -9,10 +9,10 @@ setup(
         "gen_cli": ["templates/*"],
     },
     install_requires=[
-        "click>=8.0.0,<9.0.0",
-        "docker>=5.0.0,<6.0.0",
-        "requests>=2.25.0,<3.0.0",
-        "pyyaml>=5.4.0,<6.0.0",
+        "click=>8.1.3",
+        "docker=>6.1.3",
+        "requests=>2.31.0",
+        "pyyaml=>6.0",
     ],
     entry_points={
         "console_scripts": [

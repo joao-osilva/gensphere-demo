@@ -1,0 +1,12 @@
+agent_card:
+  author: joao
+  description: A job researcher agent that provides information on job opportunities
+    based on a given topic.
+  image: my-repository/job-researcher
+  tag: latest
+  url: https://gensphere.io
+expected_inputs:
+  topic: str
+expected_output:
+  job_opportunities: list
+  research_summary: str
