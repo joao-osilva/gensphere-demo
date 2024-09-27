@@ -11,7 +11,7 @@ pip install gen-pod-sdk
 
 ## Prerequisites
 
-- Python 3.7+
+- Python 3.11+
 - A CrewAI project created using the official CLI tool
 - OpenAI API key
 
@@ -93,7 +93,7 @@ If the OpenAI API key is not set or if there's an error during the crew executio
 
 ## Contributing
 
-Contributions to gen-sdk are welcome! Please feel free to submit a Pull Request.
+Contributions to gen-pod-sdk are welcome! Please feel free to submit a Pull Request.
 
 ## License
 

@@ -13,9 +13,11 @@ def main():
     logger.info("Rendering Agent Repository page")
 
     st.set_page_config(
-        page_title="GenSphere - Agent Repository",
+        page_title="GenSphere - AI Agent Hub",
         page_icon="🤖",
-        layout="wide"
+        layout="wide",
+        initial_sidebar_state="expanded",
+        menu_items=None
     )
 
     # Custom CSS for better styling, including dark mode support
@@ -36,19 +38,18 @@ def main():
         .info-box {
             padding: 1rem;
             border-radius: 0.5rem;
-            background-color: rgba(240, 248, 255, 0.1);
-            border: 1px solid rgba(240, 248, 255, 0.2);
-        }
-        .stApp.light .info-box {
+            background-color: #F0F8FF;
+            border: 1px solid #E0E0E0;
             color: #1E1E1E;
         }
-        .stApp.dark .info-box {
-            color: #FFFFFF;
+        .stApp {
+            background-color: white;
+            color: black;
         }
     </style>
     """, unsafe_allow_html=True)
 
-    st.markdown("<h1 class='main-header'>🤖 AI Agents Repository</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 class='main-header'>🤖 AI Agent Hub</h1>", unsafe_allow_html=True)
 
     client = RegistryClient()
     try:

@@ -115,7 +115,7 @@ dist/
 build/
 
 # Streamlit
-.streamlit/
+#.streamlit/
 
 # Docker
 registry/data/

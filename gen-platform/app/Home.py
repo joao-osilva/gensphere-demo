@@ -17,7 +17,7 @@ def main():
         layout="wide"
     )
 
-    # Custom CSS for better styling, including dark mode support
+    # Custom CSS for better styling, optimized for light mode
     st.markdown("""
     <style>
         .main-header {
@@ -40,11 +40,12 @@ def main():
             margin-bottom: 2rem;
         }
         .principle {
-            background-color: rgba(240, 248, 255, 0.1);
-            border: 1px solid rgba(240, 248, 255, 0.2);
+            background-color: #F0F8FF;
+            border: 1px solid #E0E0E0;
             border-radius: 0.5rem;
             padding: 1rem;
             margin-bottom: 1rem;
+            color: #1E1E1E;
         }
         .principle-number {
             font-size: 1.2rem;
@@ -56,11 +57,16 @@ def main():
             font-weight: bold;
             color: #50C878;
         }
-        .stApp.light .principle {
-            color: #1E1E1E;
+        .stApp {
+            background-color: white;
+            color: black;
         }
-        .stApp.dark .principle {
-            color: #FFFFFF;
+        
+        .small-image {
+            max-width: 400px;
+            width: 60%;
+            margin: auto;
+            display: block;
         }
     </style>
     """, unsafe_allow_html=True)
@@ -70,34 +76,51 @@ def main():
 
     st.markdown("---")
 
-    # New section: Platform Architecture and Components
-    st.markdown("<h2 class='sub-header'>Platform Architecture and Components</h2>", unsafe_allow_html=True)
+    st.write("""
+    As fellow AI engineers, we felt frustrated by having to re-invent the wheel every time we needed to build something. 
+    From agents that can gather data from Yahoo Finance and summarize findings about a public company to agents that can 
+    scrape LinkedIn and build a short-list of potential target clients.
+    """)
 
     st.write("""
-    We are a hub where developers can build, publish, share and use AI agents. You can quickly build your solution 
+    It seemed very likely that someone else might have already gone through this hassle. 
+    So, what if they could just package and share that? It would save tons of hours 
+    of work and make it easier to leverage true expertise from different practitioners.
+    """)
+
+    st.markdown("<h2 class='sub-header'>Platform Overview</h2>", unsafe_allow_html=True)
+
+    st.write("""
+    GenSphere is a hub where developers can build, publish, share and use AI agents. You can quickly build your solution 
     by leveraging existing building blocks from the platform, no more doing it from scratch!
     """)
 
-    #st.image("../imgs/platform_diagram.svg", caption="Platform Architecture Diagram", use_column_width=True)
+    # Adjust the image display
+    st.markdown("""
+        <figure>
+            <img src="app/static/images/platform_diagram.png" alt="Platform Architecture" class="small-image">
+            <figcaption style="text-align: center;">Platform Architecture</figcaption>
+        </figure>
+    """, unsafe_allow_html=True)
 
-    st.write("Our platform is composed by different services:")
+    st.write("The platform is composed by different services:")
 
     services = [
-        "**AI agent hub**: Find agents that perform tasks in a variety of segments",
-        "**Agent as a Service (AaaS)**: Publish your agents as APIs through a 1-click deployment",
-        "**Marketplace**: Easily monetize your agents without having to worry about hosting",
-        "**Leaderboard**: Compare agents and find the best fit for your need"
+        "🏠 **AI agent hub**: Find agents that perform tasks in a variety of segments",
+        "🔗 **Agent as a Service (AaaS)**: Publish your agents as APIs through a 1-click deployment",
+        "🛒 **Marketplace**: Easily monetize your agents without having to worry about hosting",
+        "📊 **Leaderboard**: Compare agents and find the best fit for your need"
     ]
 
     for service in services:
         st.markdown(f"- {service}")
 
-    st.write("You can get started by using our open-source tools:")
+    st.write("User our open-source tools to get started:")
 
     tools = [
-        "**gen-flow-sdk**: Python framework to build agentic workflows from first principles, build complex flows using simple blocks",
-        "**gen-pod-sdk**: Python framework to easily enable your existing agents (e.g., CrewAI, Autogen) to be published into the platform",
-        "**gen-cli**: a unified tool to interact with the platform through the terminal"
+        "🔄 **gen-flow-sdk**: Python framework to build agentic workflows from first principles, build complex flows using simple blocks",
+        "🔌 **gen-pod-sdk**: Python framework to easily enable your existing agents (e.g., CrewAI, Autogen) to be published into the platform",
+        "🖥️ **gen-cli**: a unified tool to interact with the platform through the terminal"
     ]
 
     for tool in tools:
@@ -107,6 +130,12 @@ def main():
 
     st.markdown("<h2 class='sub-header'>Foundational AI Agents Manifest</h2>", unsafe_allow_html=True)
 
+    st.write("""
+    Building agents is not an easy task, it's very easy to get caught up in the "my case is truly unique" mindset, 
+    which can obfuscate eventual steps that could be generalized and reused in different workflows/contexts with minor adaptations. 
+    We call these reusable blocks Foundational AI agents.
+    """)
+    
     st.write("""
     Foundational AI agents are built with the purpose to reduce effort duplication, increase knowledge sharing, 
     and unlock a more composable approach to complex AI systems. A set of core design principles can be used to 
