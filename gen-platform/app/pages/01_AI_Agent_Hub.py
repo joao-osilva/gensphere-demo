@@ -1,8 +1,8 @@
 import streamlit as st
 from utils.registry_client import RegistryClient
+from utils.api import get_agent_card
 import logging
 
-# Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
@@ -66,7 +66,7 @@ def main():
                 details = client.get_image_details(selected_repo, selected_tag)
                 logger.info(f"Retrieved details for {selected_repo}:{selected_tag}")
 
-                st.markdown("<h3 class='sub-header'>📋 Details</h3>", unsafe_allow_html=True)
+                st.markdown("<h3 class='sub-header'>📋 Agent Card</h3>", unsafe_allow_html=True)
                 
                 # Check for labels in the config
                 labels = None
@@ -74,18 +74,36 @@ def main():
                     labels = details['config']['config']['Labels']
                 
                 if labels and isinstance(labels, dict):
-                    st.markdown("---")
-                    
-                    # Create a three-column layout for labels
-                    cols = st.columns(3)
-                    
-                    for i, (key, value) in enumerate(labels.items()):
-                        with cols[i % 3]:
-                            st.markdown(f"**{key}**")
-                            st.markdown(f"<div class='info-box'>{value}</div>", unsafe_allow_html=True)
-                            st.markdown("<br>", unsafe_allow_html=True)
+                    image_full_tag = labels.get("org.gensphere.img-full-tag")
+                    if image_full_tag:
+                        agent_card = get_agent_card(image_full_tag)
+                        if agent_card:
+                            col1, col2 = st.columns(2)
+                            with col1:
+                                st.markdown(f"**👤 Author:** {agent_card['agent_card']['author']}")
+                                st.markdown(f"**🖼️ Image:** {agent_card['agent_card']['image']}")
+                                st.markdown(f"**🏷️ Tag:** {agent_card['agent_card']['tag']}")
+                            with col2:
+                                st.markdown(f"**🔗 URL:** [{agent_card['agent_card']['url']}]({agent_card['agent_card']['url']})")
+                                st.markdown(f"**🏗️ Build Date:** {agent_card['build_date']}")
+                                st.markdown(f"**🔖 Full Image Tag:** `{image_full_tag}`")
+                            
+                            st.markdown("**📝 Description:**")
+                            st.info(agent_card['agent_card']['description'])
+                            
+                            col1, col2 = st.columns(2)
+                            with col1:
+                                st.markdown("**📥 Expected Inputs:**")
+                                st.json(agent_card['expected_inputs'])
+                            with col2:
+                                st.markdown("**📤 Expected Output:**")
+                                st.json(agent_card['expected_output'])
+                        else:
+                            st.warning("⚠️ Failed to fetch agent card information.")
+                    else:
+                        st.warning("⚠️ No org.gensphere.img-full-tag label found for this image.")
                 else:
-                    st.info("ℹ️ No details found for this Agent.")
+                    st.info("ℹ️ No agent card information found for this Agent.")
                     logger.warning(f"No labels found for {selected_repo}:{selected_tag}")
 
                 st.markdown("<h3 class='sub-header'>🚀 How to run this Agent</h3>", unsafe_allow_html=True)
