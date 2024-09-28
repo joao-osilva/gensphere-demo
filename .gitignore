@@ -215,3 +215,5 @@ Thumbs.db
 **/tmp/
 
 **/data/
+
+**/mongodb_data

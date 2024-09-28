@@ -1,5 +1,8 @@
+import os
 import click
 import docker
+import yaml
+import requests
 from .utils import create_dockerfile
 import datetime
 
@@ -8,31 +11,31 @@ import datetime
 @click.option("-r", "--repository", required=True, help="Repository name")
 @click.option("-i", "--image", required=True, help="Image name")
 @click.option("-t", "--tag", required=True, help="Image tag")
-@click.option("-d", "--description", help="Description of the image")
-@click.option("-a", "--author", help="Author of the image")
-@click.option("-e", "--email", help="Email of the author")
-@click.option("-o", "--organization", help="Organization name")
 @click.pass_context
-def build(ctx, project_path, repository, image, tag, description, author, email, organization):
+def build(ctx, project_path, repository, image, tag):
     """
-    Build and push a Docker image to the private registry.
+    Build and push a Docker image to the private registry and store agent card in MongoDB.
 
     This command creates a Dockerfile, builds a Docker image with the specified parameters,
-    and pushes it to the configured private registry.
+    pushes it to the configured private registry, and stores the agent card in MongoDB.
     """
     registry_address = ctx.obj['registry_address']
     client = docker.from_env()
     
     try:
+        # Load agent_card.yml
+        agent_card_path = os.path.join(project_path, "agent_card.yml")
+        if not os.path.exists(agent_card_path):
+            raise click.ClickException("agent_card.yml not found in the project root.")
+        
+        with open(agent_card_path, 'r') as f:
+            agent_card = yaml.safe_load(f)
+        
         # Create Dockerfile
         dockerfile_path = create_dockerfile(project_path)
-        
+
         # Prepare custom labels
         labels = {
-            "org.gensphere.description": description or "",
-            "org.gensphere.author": author or "",
-            "org.gensphere.email": email or "",
-            "org.gensphere.organization": organization or "",
             "org.gensphere.build-date": datetime.datetime.now(datetime.UTC).isoformat()
         }
         
@@ -47,24 +50,31 @@ def build(ctx, project_path, repository, image, tag, description, author, email,
             nocache=True
         )
         
-        # Push image
-        click.echo(f"Attempting to push image: {image_tag}")
+        # Push image to registry
+        click.echo(f"Pushing image: {image_tag}")
         push_output = client.images.push(image_tag, stream=True, decode=True)
         for line in push_output:
-            if 'status' in line:
-                click.echo(f"Push status: {line['status']}")
             if 'error' in line:
-                raise docker.errors.APIError(f"Push error: {line['error']}")
-    
+                raise Exception(f"Push error: {line['error']}")
+        
+        # Store agent card in MongoDB
+        api_url = f"http://{registry_address}:8000/agent_card"
+        
+        payload = {
+            "image_tag": image_tag,
+            "agent_card": agent_card
+        }
+        
+        response = requests.post(api_url, json=payload)
+        response.raise_for_status()
+        
         click.echo(f"Image {image_tag} built and pushed successfully")
+        click.echo("Agent card stored in MongoDB")
         click.echo("Custom information added:")
         for key, value in labels.items():
             click.echo(f"  {key}: {value}")
-    except docker.errors.BuildError as e:
-        click.echo(f"Error building image: {str(e)}", err=True)
-        ctx.exit(1)
-    except docker.errors.APIError as e:
-        click.echo(f"Error pushing image: {str(e)}", err=True)
+    except requests.exceptions.RequestException as e:
+        click.echo(f"Error storing agent card: {str(e)}", err=True)
         ctx.exit(1)
     except Exception as e:
         click.echo(f"Unexpected error: {str(e)}", err=True)

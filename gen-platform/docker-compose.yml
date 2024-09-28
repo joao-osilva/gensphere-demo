@@ -1,4 +1,3 @@
-version: '3'
 services:
   registry:
     image: registry:2
@@ -17,3 +16,20 @@ services:
       - registry
     environment:
       - REGISTRY_URL=http://registry:5000
+
+  api_service:
+    build: ./api
+    ports:
+      - "8000:8000"
+    depends_on:
+      - registry
+      - mongodb
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/
+
+  mongodb:
+    image: mongo:7.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo/mongodb_data:/data/db
