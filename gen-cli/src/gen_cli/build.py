@@ -5,6 +5,7 @@ import yaml
 import requests
 from .utils import create_dockerfile
 import datetime
+import json
 
 @click.command()
 @click.option("-p", "--project-path", required=True, type=click.Path(exists=True), help="Path to the FastAPI project")
@@ -28,19 +29,24 @@ def build(ctx, project_path, repository, image, tag):
         if not os.path.exists(agent_card_path):
             raise click.ClickException("agent_card.yml not found in the project root.")
         
+        click.echo("Loading agent_card.yml...")
         with open(agent_card_path, 'r') as f:
             agent_card = yaml.safe_load(f)
+        click.echo("agent_card.yml loaded successfully.")
         
         # Create Dockerfile
         dockerfile_path = create_dockerfile(project_path)
 
+        image_tag = f"{registry_address}/{repository}/{image}:{tag}"
+        build_date = datetime.datetime.now(datetime.UTC).isoformat()
+        
         # Prepare custom labels
         labels = {
-            "org.gensphere.build-date": datetime.datetime.now(datetime.UTC).isoformat()
+            "org.gensphere.img-full-tag": image_tag,
+            "org.gensphere.build-date": build_date
         }
         
         # Build image
-        image_tag = f"{registry_address}/{repository}/{image}:{tag}"
         click.echo(f"Building image: {image_tag}")
         image, _ = client.images.build(
             path=project_path,
@@ -58,21 +64,26 @@ def build(ctx, project_path, repository, image, tag):
                 raise Exception(f"Push error: {line['error']}")
         
         # Store agent card in MongoDB
-        api_url = f"http://{registry_address}:8000/agent_card"
+        api_url = f"http://{registry_address.split(':')[0]}:8000/agent_card"
         
         payload = {
-            "image_tag": image_tag,
-            "agent_card": agent_card
+            "image_full_tag": image_tag,
+            "agent_card": agent_card.get("agent_card", {}),
+            "expected_inputs": agent_card.get("expected_inputs", {}),
+            "expected_output": agent_card.get("expected_output", {}),
+            "build_date": build_date
         }
         
+        click.echo("Preparing to store agent card in MongoDB...")
+        click.echo(f"API URL: {api_url}")
+        
         response = requests.post(api_url, json=payload)
+        click.echo(f"Response content: {response.text}")
+        
         response.raise_for_status()
         
         click.echo(f"Image {image_tag} built and pushed successfully")
-        click.echo("Agent card stored in MongoDB")
-        click.echo("Custom information added:")
-        for key, value in labels.items():
-            click.echo(f"  {key}: {value}")
+        click.echo("Agent card stored in MongoDB")        
     except requests.exceptions.RequestException as e:
         click.echo(f"Error storing agent card: {str(e)}", err=True)
         ctx.exit(1)

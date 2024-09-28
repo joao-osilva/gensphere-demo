@@ -3,7 +3,7 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Install git and other necessary build tools
-#RUN apt-get update && apt-get install -y git build-essential
+RUN apt-get update && apt-get install -y git build-essential
 
 # Copy the entire project
 COPY . .
