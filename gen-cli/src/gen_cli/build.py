@@ -21,7 +21,7 @@ def build(ctx, project_path, repository, image, tag):
     pushes it to the configured private registry, and stores the agent card in MongoDB.
     """
     registry_address = ctx.obj['registry_address']
-    client = docker.from_env()
+    client = docker.from_env(timeout=600)
     
     try:
         # Load agent_card.yml
