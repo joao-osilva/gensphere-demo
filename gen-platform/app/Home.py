@@ -1,9 +1,18 @@
 import streamlit as st
 import logging
+import importlib
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+def load_page(page_name):
+    try:
+        module = importlib.import_module(f"{page_name.split('/')[0]}.{page_name.split('/')[1]}")
+        return getattr(module, "main")
+    except Exception as e:
+        logger.error(f"Error loading page {page_name}: {str(e)}")
+        return None
 
 def home():
     """
@@ -106,20 +115,7 @@ def home():
     """, unsafe_allow_html=True)
 
     logger.info("Home page content rendered successfully")
-
-# Define your pages
-create_node_page = st.Page("node_management/create_node.py", title="Create Node", icon="➕")
-node_agents_page = st.Page("node_management/node_agents.py", title="Node Agents", icon="🤖")
-node_status_page = st.Page("node_management/node_status.py", title="Node Status", icon="📋")
-getting_started_page = st.Page("docs/getting_started.py", title="Getting Started", icon="📚")
-
-# Set up navigation with section headers
-pg = st.navigation({
-    "Home": [st.Page(home, title="Home", icon="🏠")],
-    "Node Management": [create_node_page, node_status_page, node_agents_page],
-    "Docs": [getting_started_page]
-})
-
+    
 def main():
     """
     Main function to set up the GenSphere Platform page.
@@ -190,6 +186,19 @@ def main():
     pg.run()
 
     logger.info("GenSphere Platform page setup complete")
+
+# Define your pages
+create_node_page = st.Page(load_page("node_management/create_node"), url_path="create_node", title="Create Node", icon="➕")
+node_agents_page = st.Page(load_page("node_management/node_agents"), url_path="node_agents", title="Node Agents", icon="🤖")
+node_status_page = st.Page(load_page("node_management/node_status"), url_path="node_status", title="Node Status", icon="📋")
+getting_started_page = st.Page(load_page("docs/getting_started"), url_path="getting_started", title="Getting Started", icon="📚")
+
+# Set up navigation with section headers
+pg = st.navigation({
+    "Home": [st.Page(home, title="Home", icon="🏠")],
+    "Node Management": [create_node_page, node_status_page, node_agents_page],
+    "Docs": [getting_started_page]
+})
 
 if __name__ == "__main__":
     main()

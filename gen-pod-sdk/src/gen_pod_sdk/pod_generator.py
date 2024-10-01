@@ -8,7 +8,7 @@ import yaml
 
 logger = logging.getLogger(__name__)
 
-def generate_pod_app(expected_inputs: Dict[str, Any], expected_output: Dict[str, Any], agent_card: Dict[str, Any], env_vars: Dict[str, str] = None):
+def generate_pod_app(expected_inputs: Dict[str, Any], expected_output: Dict[str, Any], node_card: Dict[str, Any], env_vars: Dict[str, str] = None):
     """
     Generate and run a GenPod application for a CrewAI project.
 
@@ -18,7 +18,7 @@ def generate_pod_app(expected_inputs: Dict[str, Any], expected_output: Dict[str,
     Args:
         expected_inputs (Dict[str, Any]): A dictionary of expected input types for the crew.
         expected_output (Dict[str, Any]): A dictionary of expected output types from the crew.
-        agent_card (Dict[str, Any]): A dictionary containing agent card information.
+        node_card (Dict[str, Any]): A dictionary containing node card information.
         env_vars (Dict[str, str], optional): A dictionary of environment variables to set.
 
     Returns:
@@ -37,12 +37,12 @@ def generate_pod_app(expected_inputs: Dict[str, Any], expected_output: Dict[str,
     project_path = os.getcwd()
     logger.info(f"Project path: {project_path}")
     
-    # Generate agent_card.yml file
-    generate_agent_card_yaml(project_path, expected_inputs, expected_output, agent_card)
-    logger.info("agent_card.yml file generated")
+    # Generate node_card.yml file
+    generate_node_card_yaml(project_path, expected_inputs, expected_output, node_card)
+    logger.info("node_card.yml file generated")
 
     # Create the wrapper
-    wrapper = CrewAIPodWrapper(project_path, expected_inputs, expected_output, agent_card)
+    wrapper = CrewAIPodWrapper(project_path, expected_inputs, expected_output, node_card)
     logger.info("CrewAIPodWrapper created")
     
     # Generate the FastAPI app
@@ -54,27 +54,27 @@ def generate_pod_app(expected_inputs: Dict[str, Any], expected_output: Dict[str,
     logger.info("Starting the GenPod app")
     uvicorn.run(app, host="0.0.0.0", port=80)
 
-def generate_agent_card_yaml(project_path: str, expected_inputs: Dict[str, Any], expected_output: Dict[str, Any], agent_card: Dict[str, Any]):
+def generate_node_card_yaml(project_path: str, expected_inputs: Dict[str, Any], expected_output: Dict[str, Any], node_card: Dict[str, Any]):
     """
-    Generate the agent_card.yml file with agent card info, expected inputs, and expected outputs.
+    Generate the node_card.yml file with node card info, expected inputs, and expected outputs.
 
     Args:
         project_path (str): The path to the project directory.
         expected_inputs (Dict[str, Any]): A dictionary of expected input types.
         expected_output (Dict[str, Any]): A dictionary of expected output types.
-        agent_card (Dict[str, Any]): A dictionary containing agent card information.
+        node_card (Dict[str, Any]): A dictionary containing node card information.
     """
     def type_to_str(t):
         return t.__name__ if isinstance(t, type) else str(t)
 
-    agent_card_data = {
-        "agent_card": agent_card,
+    node_card_data = {
+        "node_card": node_card,
         "expected_inputs": {k: type_to_str(v) for k, v in expected_inputs.items()},
         "expected_output": {k: type_to_str(v) for k, v in expected_output.items()}
     }
 
-    file_path = os.path.join(project_path, "agent_card.yml")
+    file_path = os.path.join(project_path, "node_card.yml")
     with open(file_path, "w") as yaml_file:
-        yaml.dump(agent_card_data, yaml_file, default_flow_style=False)
+        yaml.dump(node_card_data, yaml_file, default_flow_style=False)
 
-    logger.info(f"agent_card.yml file created at {file_path}")
+    logger.info(f"node_card.yml file created at {file_path}")

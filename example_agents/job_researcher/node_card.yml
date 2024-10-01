@@ -1,0 +1,10 @@
+expected_inputs:
+  topic: str
+expected_output:
+  result: str
+node_card:
+  author: joao
+  description: adslkjnaksjdn
+  framework: CrewAI
+  github_url: https://github.com/joao-osilva/job_researcher
+  image: joao-osilva/job_researcher:1.0

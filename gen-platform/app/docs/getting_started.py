@@ -11,13 +11,6 @@ def main():
     """
     logger.info("Rendering How-To Guide page")
 
-    st.set_page_config(
-        page_title="GenSphere - How-To Guide", 
-        page_icon="📚",
-        initial_sidebar_state="expanded",
-        menu_items=None
-    )
-
     # Add custom CSS to ensure light mode
     st.markdown("""
     <style>

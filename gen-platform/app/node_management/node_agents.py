@@ -12,14 +12,6 @@ def main():
     """
     logger.info("Rendering Agent Repository page")
 
-    st.set_page_config(
-        page_title="GenSphere - AI Agent Hub",
-        page_icon="🤖",
-        layout="wide",
-        initial_sidebar_state="expanded",
-        menu_items=None
-    )
-
     # Custom CSS for better styling, including dark mode support
     st.markdown("""
     <style>

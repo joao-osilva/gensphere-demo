@@ -12,14 +12,14 @@ class ExpectedIO(BaseModel):
     name: str
     type: str
 
-class AgentCard(BaseModel):
+class NodeCard(BaseModel):
     author: str
     description: str
-    url: str = None
+    framework: str
+    github_url: str
     image: str
-    tag: str = "latest"
 
-class AgentCardWithIO(AgentCard):
+class NodeCardWithIO(NodeCard):
     expected_inputs: list[ExpectedIO]
     expected_output: list[ExpectedIO]
 
@@ -28,10 +28,10 @@ class CrewAIPodWrapper:
     A wrapper class for CrewAI projects to be used in GenSphere pods.
 
     This class handles the loading of CrewAI projects, generates input models,
-    and creates FastAPI endpoints for the crew's execution and agent card retrieval.
+    and creates FastAPI endpoints for the crew's execution and node card retrieval.
     """
 
-    def __init__(self, project_path: str, expected_inputs: Dict[str, Any], expected_output: Dict[str, Any], agent_card: Dict[str, Any]):
+    def __init__(self, project_path: str, expected_inputs: Dict[str, Any], expected_output: Dict[str, Any], node_card: Dict[str, Any]):
         """
         Initialize the CrewAIPodWrapper.
 
@@ -39,12 +39,12 @@ class CrewAIPodWrapper:
             project_path (str): The path to the CrewAI project.
             expected_inputs (Dict[str, Any]): A dictionary of expected input types.
             expected_output (Dict[str, Any]): A dictionary of expected output types.
-            agent_card (Dict[str, Any]): A dictionary containing agent card information.
+            node_card (Dict[str, Any]): A dictionary containing node card information.
         """
         self.project_path = project_path
         self.expected_inputs = expected_inputs
         self.expected_output = expected_output
-        self.agent_card = AgentCard(**agent_card)
+        self.node_card = NodeCard(**node_card)
         self.crew_class = self.load_crew_class()
 
     def find_project_folder(self):
@@ -128,18 +128,31 @@ class CrewAIPodWrapper:
         logger.info("Generating input model")
         fields = {}
         for name, type_hint in self.expected_inputs.items():
+            if isinstance(type_hint, str):
+                # Convert string type hints to actual types
+                if type_hint.lower() == 'str':
+                    type_hint = str
+                elif type_hint.lower() == 'int':
+                    type_hint = int
+                elif type_hint.lower() == 'float':
+                    type_hint = float
+                elif type_hint.lower() == 'bool':
+                    type_hint = bool
+                else:
+                    # Default to Any for unknown types
+                    type_hint = Any
             fields[name] = (type_hint, Field(...))
         return create_model("CrewInput", **fields)
 
     def generate_endpoints(self, app: FastAPI):
         """
-        Generate FastAPI endpoints for the crew's execution and agent card retrieval.
+        Generate FastAPI endpoints for the crew's execution and node card retrieval.
 
         Args:
             app (FastAPI): The FastAPI application to add the endpoints to.
         """
         self.generate_execute_endpoint(app)
-        self.generate_agent_card_endpoint(app)
+        self.generate_node_card_endpoint(app)
 
     def generate_execute_endpoint(self, app: FastAPI):
         """
@@ -181,33 +194,36 @@ class CrewAIPodWrapper:
 
         logger.info("GenPod execute endpoint generated successfully")
 
-    def generate_agent_card_endpoint(self, app: FastAPI):
+    def generate_node_card_endpoint(self, app: FastAPI):
         """
-        Generate a FastAPI endpoint for retrieving the agent card information.
+        Generate a FastAPI endpoint for retrieving the node card information.
 
         Args:
             app (FastAPI): The FastAPI application to add the endpoint to.
         """
-        @app.get("/agent_card", response_model=AgentCardWithIO)
-        async def get_agent_card():
+        @app.get("/node_card", response_model=NodeCardWithIO)
+        async def get_node_card():
             """
-            Retrieve the agent card information.
+            Retrieve the node card information.
 
             Returns:
-                AgentCardWithIO: The agent card information with expected inputs and outputs.
+                NodeCardWithIO: The node card information with expected inputs and outputs.
             """
+            def get_type_name(t):
+                return t if isinstance(t, str) else (t.__name__ if hasattr(t, '__name__') else str(t))
+
             expected_inputs = [
-                ExpectedIO(name=k, type=v.__name__)
+                ExpectedIO(name=k, type=get_type_name(v))
                 for k, v in self.expected_inputs.items()
             ]
             expected_output = [
-                ExpectedIO(name=k, type=v.__name__)
+                ExpectedIO(name=k, type=get_type_name(v))
                 for k, v in self.expected_output.items()
             ]
-            return AgentCardWithIO(
-                **self.agent_card.dict(),
+            return NodeCardWithIO(
+                **self.node_card.dict(),
                 expected_inputs=expected_inputs,
                 expected_output=expected_output
             )
 
-        logger.info("GenPod agent_card endpoint generated successfully")
+        logger.info("GenPod node_card endpoint generated successfully")
