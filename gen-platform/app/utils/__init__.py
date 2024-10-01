@@ -7,6 +7,6 @@ Modules:
 """
 
 from .registry_client import RegistryClient
-from .api import get_agent_card
+from .api import get_node_card
 
-__all__ = ['RegistryClient', 'get_agent_card']
+__all__ = ['RegistryClient', 'get_node_card']

@@ -5,71 +5,11 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-def main():
+def home():
     """
-    Main function to render the home page of the GenSphere Platform.
+    Function to render the home page content of the GenSphere Platform.
     """
-    logger.info("Rendering Home page")
-
-    st.set_page_config(
-        page_title="GenSphere Platform",
-        page_icon="🌐",
-        layout="wide"
-    )
-
-    # Custom CSS for better styling, optimized for light mode
-    st.markdown("""
-    <style>
-        .main-header {
-            font-size: 3rem;
-            color: #4A90E2;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .sub-header {
-            font-size: 2rem;
-            color: #50C878;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-        }
-        .tagline {
-            font-size: 1.5rem;
-            color: #FF6B6B;
-            text-align: center;
-            font-style: italic;
-            margin-bottom: 2rem;
-        }
-        .principle {
-            background-color: #F0F8FF;
-            border: 1px solid #E0E0E0;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            color: #1E1E1E;
-        }
-        .principle-number {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #4A90E2;
-        }
-        .principle-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #50C878;
-        }
-        .stApp {
-            background-color: white;
-            color: black;
-        }
-        
-        .small-image {
-            max-width: 400px;
-            width: 60%;
-            margin: auto;
-            display: block;
-        }
-    </style>
-    """, unsafe_allow_html=True)
+    logger.info("Rendering Home page content")
 
     st.markdown("<h1 class='main-header'>🌐 Welcome to GenSphere!</h1>", unsafe_allow_html=True)
     st.markdown("<p class='tagline'>A Hugging Face for AI Agents</p>", unsafe_allow_html=True)
@@ -165,7 +105,91 @@ def main():
     Navigate through the pages to discover more about GenSphere Platform and its capabilities.
     """, unsafe_allow_html=True)
 
-    logger.info("Home page rendered successfully")
+    logger.info("Home page content rendered successfully")
+
+# Define your pages
+create_node_page = st.Page("node_management/create_node.py", title="Create Node", icon="➕")
+node_agents_page = st.Page("node_management/node_agents.py", title="Node Agents", icon="🤖")
+node_status_page = st.Page("node_management/node_status.py", title="Node Status", icon="📋")
+getting_started_page = st.Page("docs/getting_started.py", title="Getting Started", icon="📚")
+
+# Set up navigation with section headers
+pg = st.navigation({
+    "Home": [st.Page(home, title="Home", icon="🏠")],
+    "Node Management": [create_node_page, node_status_page, node_agents_page],
+    "Docs": [getting_started_page]
+})
+
+def main():
+    """
+    Main function to set up the GenSphere Platform page.
+    """
+    logger.info("Setting up GenSphere Platform page")
+
+    st.set_page_config(
+        page_title="GenSphere Platform",
+        page_icon="🌐",
+        layout="wide"
+    )
+
+    # Custom CSS for better styling, optimized for light mode
+    st.markdown("""
+    <style>
+        .main-header {
+            font-size: 3rem;
+            color: #4A90E2;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .sub-header {
+            font-size: 2rem;
+            color: #50C878;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        .tagline {
+            font-size: 1.5rem;
+            color: #FF6B6B;
+            text-align: center;
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+        .principle {
+            background-color: #F0F8FF;
+            border: 1px solid #E0E0E0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            color: #1E1E1E;
+        }
+        .principle-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4A90E2;
+        }
+        .principle-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #50C878;
+        }
+        .stApp {
+            background-color: white;
+            color: black;
+        }
+        
+        .small-image {
+            max-width: 400px;
+            width: 60%;
+            margin: auto;
+            display: block;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # Run the selected page
+    pg.run()
+
+    logger.info("GenSphere Platform page setup complete")
 
 if __name__ == "__main__":
     main()

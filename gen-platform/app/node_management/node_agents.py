@@ -1,6 +1,6 @@
 import streamlit as st
 from utils.registry_client import RegistryClient
-from utils.api import get_agent_card
+from utils.api import get_node_card
 import logging
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -66,7 +66,7 @@ def main():
                 details = client.get_image_details(selected_repo, selected_tag)
                 logger.info(f"Retrieved details for {selected_repo}:{selected_tag}")
 
-                st.markdown("<h3 class='sub-header'>📋 Agent Card</h3>", unsafe_allow_html=True)
+                st.markdown("<h3 class='sub-header'>📋 Node Card</h3>", unsafe_allow_html=True)
                 
                 # Check for labels in the config
                 labels = None
@@ -76,37 +76,37 @@ def main():
                 if labels and isinstance(labels, dict):
                     image_full_tag = labels.get("org.gensphere.img-full-tag")
                     if image_full_tag:
-                        agent_card = get_agent_card(image_full_tag)
-                        if agent_card:
+                        node_card = get_node_card(image_full_tag)
+                        if node_card:
                             col1, col2 = st.columns(2)
                             with col1:
-                                st.markdown(f"**👤 Author:** {agent_card['agent_card']['author']}")
-                                st.markdown(f"**🖼️ Image:** {agent_card['agent_card']['image']}")
-                                st.markdown(f"**🏷️ Tag:** {agent_card['agent_card']['tag']}")
+                                st.markdown(f"**👤 Author:** {node_card['node_card']['author']}")
+                                st.markdown(f"**🖼️ Image:** {node_card['node_card']['image']}")
+                                st.markdown(f"**🏗️ Framework:** {node_card['node_card']['framework']}")
                             with col2:
-                                st.markdown(f"**🔗 URL:** [{agent_card['agent_card']['url']}]({agent_card['agent_card']['url']})")
-                                st.markdown(f"**🏗️ Build Date:** {agent_card['build_date']}")
+                                st.markdown(f"**🔗 GitHub URL:** [{node_card['node_card']['github_url']}]({node_card['node_card']['github_url']})")
+                                st.markdown(f"**🏗️ Build Date:** {node_card['build_date']}")
                                 st.markdown(f"**🔖 Full Image Tag:** `{image_full_tag}`")
                             
                             st.markdown("**📝 Description:**")
-                            st.info(agent_card['agent_card']['description'])
+                            st.info(node_card['node_card']['description'])
                             
                             col1, col2 = st.columns(2)
                             with col1:
                                 st.markdown("**📥 Expected Inputs:**")
-                                st.json(agent_card['expected_inputs'])
+                                st.json(node_card['expected_inputs'])
                             with col2:
                                 st.markdown("**📤 Expected Output:**")
-                                st.json(agent_card['expected_output'])
+                                st.json(node_card['expected_output'])
                         else:
                             st.warning("⚠️ Failed to fetch agent card information.")
                     else:
                         st.warning("⚠️ No org.gensphere.img-full-tag label found for this image.")
                 else:
-                    st.info("ℹ️ No agent card information found for this Agent.")
+                    st.info("ℹ️ No node card information found for this Node.")
                     logger.warning(f"No labels found for {selected_repo}:{selected_tag}")
 
-                st.markdown("<h3 class='sub-header'>🚀 How to run this Agent</h3>", unsafe_allow_html=True)
+                st.markdown("<h3 class='sub-header'>🚀 How to run this Node</h3>", unsafe_allow_html=True)
                 st.code(f"gen-cli deploy -r {selected_repo.split('/')[0]} -i {selected_repo.split('/')[1]} -t {selected_tag} -p 8081 -n container_1", language="bash")
             else:
                 st.warning("⚠️ No tags found for this repository.")

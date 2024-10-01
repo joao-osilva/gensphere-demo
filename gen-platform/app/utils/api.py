@@ -2,15 +2,15 @@ import os
 import requests
 import logging
 
-def get_agent_card(image_full_tag):
+def get_node_card(image_full_tag):
     """
-    Fetch agent card information from the API service.
+    Fetch node card information from the API service.
     """
-    API_SERVICE_URL = os.environ.get("API_SERVICE_URL", "http://api_service:8000")
+    NODE_CARD_SERVICE_URL = os.environ.get("NODE_CARD_SERVICE_URL", "http://node_card_service:8000")
     try:
-        response = requests.get(f"{API_SERVICE_URL}/agent_card/{image_full_tag}")
+        response = requests.get(f"{NODE_CARD_SERVICE_URL}/node_card/{image_full_tag}")
         response.raise_for_status()
         return response.json()
     except requests.RequestException as e:
-        logging.error(f"Error fetching agent card: {str(e)}")
+        logging.error(f"Error fetching node card: {str(e)}")
         return None

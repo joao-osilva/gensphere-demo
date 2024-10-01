@@ -1,0 +1,6 @@
+pymongo==4.9.1
+docker==6.1.3
+gitpython==3.1.43
+pyyaml
+requests<=2.32.0
+python-dotenv==1.0.1
