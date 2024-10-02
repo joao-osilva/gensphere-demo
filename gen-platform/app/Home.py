@@ -191,12 +191,15 @@ def main():
 create_node_page = st.Page(load_page("node_management/create_node"), url_path="create_node", title="Create Node", icon="➕")
 node_agents_page = st.Page(load_page("node_management/node_agents"), url_path="node_agents", title="Node Agents", icon="🤖")
 node_status_page = st.Page(load_page("node_management/node_status"), url_path="node_status", title="Node Status", icon="📋")
+create_agent_page = st.Page(load_page("ai_agent/create_agent"), url_path="create_agent", title="Create Agent", icon="➕")
+ai_agents_page = st.Page(load_page("ai_agent/ai_agents"), url_path="ai_agents", title="AI Agents", icon="🤖")
 getting_started_page = st.Page(load_page("docs/getting_started"), url_path="getting_started", title="Getting Started", icon="📚")
 
 # Set up navigation with section headers
 pg = st.navigation({
     "Home": [st.Page(home, title="Home", icon="🏠")],
     "Node Management": [create_node_page, node_status_page, node_agents_page],
+    "AI Agents": [create_agent_page, ai_agents_page],
     "Docs": [getting_started_page]
 })
 

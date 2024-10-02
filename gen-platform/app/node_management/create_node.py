@@ -53,7 +53,8 @@ def main():
     framework = st.selectbox(
         "🛠️ Select Framework",
         options=["CrewAI"],
-        index=0
+        index=0,
+        key="framework"
     )
 
     # Form inputs
@@ -62,12 +63,13 @@ def main():
         github_url = st.text_input(
             "🔗 GitHub Repository URL",
             placeholder="https://github.com/username/repo",
-            help="Your project should comply with the template from CrewAI [docs](https://docs.crewai.com/getting-started/Start-a-New-CrewAI-Project-Template-Method/)"
+            help="Your project should comply with the template from CrewAI [docs](https://docs.crewai.com/getting-started/Start-a-New-CrewAI-Project-Template-Method/)",
+            key="github_url"
         )
-        author = st.text_input("👤 Author", placeholder="Your Name")
+        author = st.text_input("👤 Author", placeholder="Your Name", key="author")
     with col2:
-        version = st.text_input("🏷️ Version", placeholder="1.0.0")
-        description = st.text_area("📝 Description", placeholder="Describe your AI agent project")
+        version = st.text_input("🏷️ Version", placeholder="1.0.0", key="version")
+        description = st.text_area("📝 Description", placeholder="Describe your AI agent project", key="description")
 
     st.markdown("<h3 class='sub-header'>🔄 Input/Output Configuration</h3>", unsafe_allow_html=True)
     
@@ -80,7 +82,8 @@ def main():
     "attribute1_name": "str",
     "attribute2_name": "int",
     "attribute3_name": "float"
-}'''
+}''',
+            key="input_json"
         )
     with col2:
         st.markdown("<p class='label-header'>📤 Expected Outputs</p>", unsafe_allow_html=True)
@@ -90,10 +93,11 @@ def main():
     "attribute1_name": "str",
     "attribute2_name": "list",
     "attribute3_name": "dict"
-}'''
+}''',
+            key="output_json"
         )
 
-    if st.button("🚀 Submit"):
+    if st.button("🚀 Create"):
         logger.info("Submit button clicked")
         # Validate all fields
         if not github_url or not author or not description or not input_json or not output_json or not version:
@@ -124,6 +128,16 @@ def main():
             response.raise_for_status()
             st.success("✅ Node created successfully!")
             logger.info("Node created successfully")
+            
+            # Clear the form
+            st.session_state.framework = "CrewAI"
+            st.session_state.github_url = ""
+            st.session_state.author = ""
+            st.session_state.version = ""
+            st.session_state.description = ""
+            st.session_state.input_json = ""
+            st.session_state.output_json = ""
+            st.rerun()
         except requests.exceptions.RequestException as e:
             st.error(f"❌ Error creating node: {str(e)}")
             logger.error(f"Error creating node: {str(e)}", exc_info=True)

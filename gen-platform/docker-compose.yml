@@ -55,3 +55,12 @@ services:
       - "27017:27017"
     volumes:
       - ./mongo/mongodb_data:/data/db
+
+  agents_service:
+    build: ./api/agents
+    ports:
+      - "8002:8002"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/
