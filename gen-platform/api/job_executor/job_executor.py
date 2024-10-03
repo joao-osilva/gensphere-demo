@@ -39,7 +39,7 @@ except Exception as e:
     raise
 
 # Registry address
-REGISTRY_ADDRESS = "host.docker.internal:5001"
+REGISTRY_ADDRESS = "registry.gensphere.io"
 
 def parse_github_url(url: str) -> tuple:
     """

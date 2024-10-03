@@ -5,8 +5,14 @@ services:
       - "5001:5000"
     volumes:
       - ./registry/data:/var/lib/registry
+      - /etc/letsencrypt/live/gensphere.io/fullchain.pem:/certs/fullchain.pem:ro
+      - /etc/letsencrypt/live/gensphere.io/privkey.pem:/certs/privkey.pem:ro
     environment:
       REGISTRY_STORAGE_DELETE_ENABLED: "true"
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/fullchain.pem
+      REGISTRY_HTTP_TLS_KEY: /certs/privkey.pem
+      REGISTRY_HTTP_ADDR: 0.0.0.0:5000
+      REGISTRY_HTTP_TLS_MINIMUMTLS: tls1.2
 
   streamlit_app:
     build: ./app
@@ -15,7 +21,7 @@ services:
     depends_on:
       - registry
     environment:
-      - REGISTRY_URL=http://registry:5000
+      - REGISTRY_URL=https://registry.gensphere.io
 
   node_card_service:
     build: ./api/node_card
@@ -46,7 +52,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - MONGO_URI=mongodb://mongodb:27017/
-      - REGISTRY_ADDRESS=host.docker.internal:5000
+      - REGISTRY_ADDRESS=registry.gensphere.io
       - DOCKER_HOST=unix:///var/run/docker.sock
 
   mongodb:

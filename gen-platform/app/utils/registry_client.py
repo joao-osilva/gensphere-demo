@@ -16,7 +16,7 @@ class RegistryClient:
         """
         Initialize the RegistryClient with the registry URL from environment variables.
         """
-        self.registry_url = os.environ.get("REGISTRY_URL", "http://localhost:5001")
+        self.registry_url = os.environ.get("REGISTRY_URL", "https://registry.gensphere.io")
         self.logger = logging.getLogger(__name__)
 
     def _make_request(self, method, endpoint, **kwargs):
