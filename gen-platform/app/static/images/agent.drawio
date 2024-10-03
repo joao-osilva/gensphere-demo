@@ -1,9 +1,60 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36" version="24.7.16">
   <diagram name="Page-1" id="1CarT9miog55OZHrZJPB">
-    <mxGraphModel>
+    <mxGraphModel dx="1026" dy="615" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="6mu2_iLWK0yBm7sarxSf-1" value="AI Agent" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="350" y="280" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6mu2_iLWK0yBm7sarxSf-6" value="&lt;span style=&quot;font-size: 15px; font-weight: 700;&quot;&gt;ƒ(x)&lt;/span&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="230" y="380" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="6mu2_iLWK0yBm7sarxSf-7" value="&lt;span style=&quot;font-size: 15px; font-weight: 700;&quot;&gt;LLMs&lt;/span&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="360" y="380" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="6mu2_iLWK0yBm7sarxSf-8" value="&lt;span style=&quot;font-size: 15px; font-weight: 700;&quot;&gt;Agents&lt;/span&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=15;strokeColor=#009900;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="380" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="6mu2_iLWK0yBm7sarxSf-9" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#0080F0;shadow=0;dashed=0;shape=mxgraph.ios7.icons.add;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="320" y="405" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6mu2_iLWK0yBm7sarxSf-10" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#0080F0;shadow=0;dashed=0;shape=mxgraph.ios7.icons.add;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="450" y="405" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6mu2_iLWK0yBm7sarxSf-11" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=default;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="270" y="370" as="sourcePoint" />
+            <mxPoint x="320" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6mu2_iLWK0yBm7sarxSf-12" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=default;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="470" y="320" as="sourcePoint" />
+            <mxPoint x="520" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6mu2_iLWK0yBm7sarxSf-13" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=default;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="394.5" y="320" as="sourcePoint" />
+            <mxPoint x="394.5" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6mu2_iLWK0yBm7sarxSf-16" value="Python functions" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="235" y="450" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6mu2_iLWK0yBm7sarxSf-17" value="ChatGPT, Claude, Llama..." style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="346.25" y="450" width="97.5" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6mu2_iLWK0yBm7sarxSf-18" value="3rd party agentic flow" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="487.5" y="450" width="75" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6mu2_iLWK0yBm7sarxSf-20" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=15;strokeColor=#009900;strokeWidth=2;fillColor=#009900;" vertex="1" parent="1">
+          <mxGeometry x="560" y="287.5" width="15" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="6mu2_iLWK0yBm7sarxSf-22" value="Optional" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="575" y="280" width="60" height="30" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
