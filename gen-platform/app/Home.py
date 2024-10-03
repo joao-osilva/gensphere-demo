@@ -37,6 +37,35 @@ def home():
     of work and make it easier to leverage true expertise from different practitioners.
     """)
 
+    st.markdown("---")
+
+    st.markdown("<h2 class='sub-header'>What is an AI Agent?</h2>", unsafe_allow_html=True)
+
+    st.write("""
+    To simply put, agents can be described as a group of tasks that can be sequenced in different ways to solve a problem. 
+    These tasks can be anything, but they usually fall into 3 common building blocks: Python functions, LLM calls and other agentic workflows:
+    """)
+
+    st.markdown("""
+        <figure>
+            <img src="app/static/images/agent.png" alt="Agent building blocks" class="small-image">
+            <figcaption style="text-align: center;">Agent building blocks</figcaption>
+        </figure>
+    """, unsafe_allow_html=True)
+
+    st.write("""
+    We can think of these blocks as nodes in a graph, linked by edges that represent the sequence they should be executed:
+    """)
+
+    st.markdown("""
+        <figure>
+            <img src="app/static/images/graphs.png" alt="Agents as Graphs" class="small-image">
+            <figcaption style="text-align: center;">Agents as Graphs</figcaption>
+        </figure>
+    """, unsafe_allow_html=True)
+
+    st.markdown("---")
+
     st.markdown("<h2 class='sub-header'>Platform Overview</h2>", unsafe_allow_html=True)
 
     st.write("""
@@ -47,7 +76,7 @@ def home():
     # Adjust the image display
     st.markdown("""
         <figure>
-            <img src="app/static/images/platform_diagram.png" alt="Platform Architecture" class="small-image">
+            <img src="app/static/images/platform_diagram.png" alt="Platform Architecture" class="small-image-platform">
             <figcaption style="text-align: center;">Platform Architecture</figcaption>
         </figure>
     """, unsafe_allow_html=True)
@@ -67,8 +96,8 @@ def home():
     st.write("User our open-source tools to get started:")
 
     tools = [
-        "🔄 **gen-flow-sdk**: Python framework to build agentic workflows from first principles, build complex flows using simple blocks",
-        "🔌 **gen-pod-sdk**: Python framework to easily enable your existing agents (e.g., CrewAI, Autogen) to be published into the platform",
+        "⚬⚬⚬ **gen-graph-sdk**: Python framework to build agentic workflows from first principles, build complex flows using simple blocks",
+        "🔌 **gen-node-sdk**: Python framework to easily enable your existing agents (e.g., CrewAI, Autogen) to be published into the platform",
         "🖥️ **gen-cli**: a unified tool to interact with the platform through the terminal"
     ]
 
@@ -107,11 +136,15 @@ def home():
 
     st.markdown("---")
 
-    st.markdown("""
-    <h2 class='sub-header'>Get Started</h2>
+    st.markdown("<h2 class='sub-header'>Reach Out! We want to hear from you!</h2>", unsafe_allow_html=True)
 
-    Explore our AI agents repository and learn how to integrate these powerful tools into your projects. 
-    Navigate through the pages to discover more about GenSphere Platform and its capabilities.
+    st.markdown("""
+    <div class='reach-out'>
+        <p>🚀 Ready to revolutionize your AI workflow? We're just a message away!</p>
+        <p>Whether you're looking to integrate our platform, contribute to our growing community, or just want to geek out about AI, we'd love to hear from you.</p>
+        <p>Drop us a line at <a href="mailto:admin@gensphere.io">admin@gensphere.io</a>, connect with us on <a href="https://www.linkedin.com/company/gen-sphere" target="_blank">LinkedIn</a>, or join our <a href="https://www.reddit.com/r/GenSphere/" target="_blank">Reddit community</a>.</p>
+        <p>Let's shape the future of AI together! 🌟</p>
+    </div>
     """, unsafe_allow_html=True)
 
     logger.info("Home page content rendered successfully")
@@ -175,9 +208,37 @@ def main():
         
         .small-image {
             max-width: 400px;
+            width: 40%;
+            margin: auto;
+            display: block;
+        }
+                
+        .small-image-platform {
+            max-width: 400px;
             width: 60%;
             margin: auto;
             display: block;
+        }
+        
+        .reach-out {
+            background-color: #F0F8FF;
+            border: 2px solid #4A90E2;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            color: #1E1E1E;
+            text-align: center;
+        }
+        .reach-out p {
+            margin-bottom: 1rem;
+        }
+        .reach-out a {
+            color: #4A90E2;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .reach-out a:hover {
+            text-decoration: underline;
         }
     </style>
     """, unsafe_allow_html=True)
